@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/rl_test_cover"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/light_grey"
+        android:visibility="visible"
+        >
+
+    <TextView
+        android:id="@+id/test_caption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/fifty"
+        android:layout_marginRight="@dimen/fifty"
+        android:layout_marginTop="@dimen/one_hundred"
+        android:gravity="center"
+        android:text="Test your knowlegde of your Language"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:visibility="visible" />
+
+    <TextView
+        android:id="@+id/test_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/test_caption"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/fifty"
+        android:layout_marginRight="@dimen/fifty"
+        android:layout_marginTop="@dimen/ten"
+        android:text="Convert time values from your selected language to digital time"
+        android:textColor="@color/app_white_smoke"
+        android:textSize="18sp"
+        android:visibility="visible" />
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="@dimen/fifty"
+        android:layout_marginRight="@dimen/ten"
+
+        android:text="START" />
+
+    <Spinner
+        android:id="@+id/lang_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/fifty"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/fifty"
+        android:layout_marginLeft="@dimen/ten"
+        android:entries="@array/lang_array"
+
+        ></Spinner>
+</RelativeLayout>
+
