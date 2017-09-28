@@ -55,15 +55,15 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
     TextView timeText, digitalTime, score, language;
     RelativeLayout testCover, testView;
     LinearLayout scoreView;
-    int pickerHour = 0;
-    int pickerMin = 0;
+    int pickerHour = 0;// int value for the selected hour on the timepicker dialog
+    int pickerMin = 0; // int value for the selected minute on the timepicker dialog
     Button btnAction, btnStart, btnRestart;
     boolean started;
-    ArrayList<String> questions;
-    ArrayList<String> answers;
+    ArrayList<String> questions; //ArrayList for the generated random questions
+    ArrayList<String> answers;  //ArrayList of the answers to the generated random questions
     ArrayList<TimeQuestions> preparedQuestions;
-    int question_stage = 0;
-    int total_score = 0;
+    int question_stage = 0;     //value for question counter . question limit is 5
+    int total_score = 0;       //value for total score after questions are answered
     ImageView mediaChange;
     CardView cardLayout, testCardLayout;
 
@@ -100,6 +100,7 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
         return view;
     }
 
+    //listener for the time picker dialog
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
         // Do something with the time chosen by the user
@@ -110,6 +111,7 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
     }
 
 
+    //String formatter for the digitalTime textview
     public void changeTimeText(int Hour, int Min) {
         String formattedTime = String.valueOf(Hour) + ":" + String.valueOf(Min);
         digitalTime.setText(formattedTime);
@@ -130,8 +132,10 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
                 break;
             case R.id.btn_action:
                 if (question_stage == 0) {
+                    //checking the answer before next question is set
                     checkAnswer(questions.get(0), pickerHour, pickerMin, preparedQuestions);
 
+                    // Changing the question set
                     setQuestions(questions, answers);
 
 
@@ -185,9 +189,15 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
         }
     }
 
+
     public void createQuiz() {
         DataUtil dataUtil = new DataUtil(getContext());
+
+        /*The dataUtil.prepareQuestions method creates a set of 5 questions from randomized numbers(1-12 for hours & 1-60 for
+        miniutes), while saving the chosen time and minutes in string format using the setTimeString Method*/
         preparedQuestions = dataUtil.prepareQuestions();
+
+        //The random arraylist is persisted in this class
         ArrayList<TimeQuestions> arrayList = preparedQuestions;
         questions = new ArrayList<>();
         answers = new ArrayList<>();
@@ -204,10 +214,12 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
         setQuestions(questions, answers);
     }
 
+
+    //Changing the Questions and resetting the digital time
     public void setQuestions(ArrayList<String> questions, ArrayList<String> answers) {
         if (question_stage == 0) {
             timeText.setText(questions.get(0));
-            digitalTime.setText("00:12");
+            digitalTime.setText("00:00");
             question_stage++;
         } else if (question_stage <= 4) {
             digitalTime.setText("00:00");
@@ -220,7 +232,18 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
     }
 
 
+
+    //Checking if an answer is wrong or right
     public void checkAnswer(String question, int selectedHour, int selectedMinutes, ArrayList<TimeQuestions> timeQuestion) {
+
+        //2Ways the answer can be checked,
+        // First Way: checking if the time chosen through the time picker is same thing with the one saved
+        //in the TimeQuestions.getTimeString Item, this is done as each question is anwsered
+        // Second Way: conversion of time chosen thrrought the time picker to respective language chosen and checking
+        // if contentEquals the text of the question
+
+        //This below is using the second method, which is harder and less effiecient - I forgot I saved the timeString.
+
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, selectedHour);
         calendar.set(Calendar.MINUTE, selectedMinutes);
@@ -260,6 +283,8 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
 
     }
 
+
+    //Shows score at the end of each testing session
     public void showScore() {
         score.setText(String.valueOf(total_score));
         testCover.setVisibility(View.INVISIBLE);
@@ -272,6 +297,8 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
 
     }
 
+
+    //Pictures that  give you an hint you got an answer wrong
     private final int wrong_pictures[] = {
             R.drawable.image1,
             R.drawable.image2,
@@ -280,6 +307,7 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
 
     };
 
+    //Pictures that  give you an hint you got an answer right
     public final int correct_pictures[] = {
             R.drawable.image1_correct,
             R.drawable.image2_correct,
@@ -305,6 +333,14 @@ public class LearningFragment extends Fragment implements TimePickerDialog.OnTim
         }
 
     }
+
+
+    // TODO Seperate the testing layout into different fragments
+    // TODO Create a widget that tells the time in selected language and allow for customization
+    // TODO Proper design of the ap
+    // TODO Allow for language change for the testing page throught a spinner/dropdown
+
+
 
 //
 //    UtilsClass utils = new UtilsClass(dialog.getContext());
